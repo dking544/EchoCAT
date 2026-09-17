@@ -1,5 +1,6 @@
 import os
 import glob
+import argparse
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -257,11 +258,13 @@ class TransUNetInference:
                         print(f"处理失败: {input_path}, 错误: {str(e)}")
                         continue
 
-    def batch_process_with_progress(self, input_folder, output_folder, threshold=0.5):
+    def batch_process_with_progress(self, input_folder, output_folder, threshold=0.5,
+                                    supported_formats=None):
         """
         带进度条的批量处理
         """
-        supported_formats = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif']
+        if supported_formats is None:
+            supported_formats = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff', '.tif']
 
         # 统计总文件数
         total_files = 0
@@ -311,32 +314,114 @@ class TransUNetInference:
                 pbar.update(1)
 
 
-# ------------------------- 使用示例 -------------------------
-if __name__ == "__main__":
-    # 示例1: 直接使用
-    model_path = ""
-    input_folder = ""
-    output_folder = ""
+# ------------------------- 命令行参数解析 -------------------------
+def parse_args():
+    parser = argparse.ArgumentParser(description="TransUNet 推理脚本")
+
+    parser.add_argument(
+        "--model_path",
+        type=str,
+        required=True,
+        help="模型权重文件路径，例如 best_model.pth"
+    )
+    parser.add_argument(
+        "--input_folder",
+        type=str,
+        default=None,
+        help="输入图像文件夹，批量模式使用"
+    )
+    parser.add_argument(
+        "--output_folder",
+        type=str,
+        default=None,
+        help="输出掩码文件夹，批量模式使用"
+    )
+    parser.add_argument(
+        "--threshold",
+        type=float,
+        default=0.5,
+        help="二值化阈值，默认 0.5"
+    )
+    parser.add_argument(
+        "--device",
+        type=str,
+        default="cuda",
+        help="推理设备，例如 cuda、cuda:0、cpu"
+    )
+    parser.add_argument(
+        "--mode",
+        type=str,
+        default="progress",
+        choices=["simple", "progress", "single"],
+        help="处理模式：simple=简单批量，progress=带进度条批量，single=单张图像"
+    )
+    parser.add_argument(
+        "--single_image",
+        type=str,
+        default=None,
+        help="单张图像路径，mode=single 时使用"
+    )
+    parser.add_argument(
+        "--single_output",
+        type=str,
+        default="single_result_mask.png",
+        help="单张图像输出路径，mode=single 时使用"
+    )
+    parser.add_argument(
+        "--supported_formats",
+        nargs="+",
+        default=[".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif"],
+        help="支持的图像格式，例如：--supported_formats .jpg .png"
+    )
+
+    return parser.parse_args()
+
+
+def main():
+    args = parse_args()
+
+    if args.mode in ("simple", "progress"):
+        if not args.input_folder or not args.output_folder:
+            raise ValueError("批量模式必须提供 --input_folder 和 --output_folder")
 
     # 创建推理器
-    inferencer = TransUNetInference(model_path, device='cuda')
+    inferencer = TransUNetInference(args.model_path, device=args.device)
 
-    # # 方法1: 简单批量处理
-    # print("开始批量处理...")
-    # inferencer.process_folder(input_folder, output_folder, threshold=0.5)
+    if args.mode == "simple":
+        print("开始简单批量处理...")
+        inferencer.process_folder(
+            input_folder=args.input_folder,
+            output_folder=args.output_folder,
+            threshold=args.threshold,
+            supported_formats=args.supported_formats
+        )
 
-    # 方法2: 带进度条的批量处理
-    print("开始带进度条的批量处理...")
-    inferencer.batch_process_with_progress(input_folder, output_folder, threshold=0.5)
+    elif args.mode == "progress":
+        print("开始带进度条的批量处理...")
+        inferencer.batch_process_with_progress(
+            input_folder=args.input_folder,
+            output_folder=args.output_folder,
+            threshold=args.threshold,
+            supported_formats=args.supported_formats
+        )
 
-    # # 方法3: 单张图像处理
-    # single_image_path = "/path/to/single/image.jpg"
-    # if os.path.exists(single_image_path):
-    #     mask = inferencer.predict_single_image(single_image_path, threshold=0.5)
-    #     cv2.imwrite("single_result_mask.png", mask)
-    #     print("单张图像处理完成")
+    elif args.mode == "single":
+        if not args.single_image:
+            raise ValueError("mode=single 时必须提供 --single_image")
+
+        print("开始单张图像处理...")
+        mask = inferencer.predict_single_image(
+            image_path=args.single_image,
+            threshold=args.threshold
+        )
+        cv2.imwrite(args.single_output, mask)
+        print(f"单张图像处理完成: {args.single_output}")
 
     print("所有处理完成！")
+
+
+if __name__ == "__main__":
+    main()
 
 
 # ------------------------- 额外功能 -------------------------
@@ -385,6 +470,3 @@ def batch_visualize(input_folder, mask_folder, output_folder):
                     visualize_results(image_path, mask_path, output_path)
                 else:
                     print(f"掩码文件不存在: {mask_path}")
-
-# 使用示例:
-# python transunet_inference.py
