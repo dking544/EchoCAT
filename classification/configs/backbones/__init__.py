@@ -1,0 +1,1 @@
+from .tinyvit import TinyViT

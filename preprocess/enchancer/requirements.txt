@@ -1,0 +1,17 @@
+timm @ git+git://github.com/rwightman/pytorch-image-models@9a1bd358c7e998799eed88b29842e3c9e5483e34
+segmentation_models_pytorch @ git+https://github.com/papkov/segmentation_models.pytorch
+pytorch_toolbelt @ git+https://github.com/papkov/pytorch-toolbelt
+omegaconf>=2.0.5
+hydra-core==1.1
+wandb>=0.10
+numpy~=1.19.2
+albumentations~=0.5.2
+scipy~=1.5.4
+scikit-image~=0.18.0
+torch~=1.7.1
+tifffile~=2020.12.8
+matplotlib~=3.3.1
+tqdm~=4.59.0
+h5py
+pandas
+einops

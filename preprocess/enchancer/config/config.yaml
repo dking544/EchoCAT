@@ -1,0 +1,54 @@
+hydra:
+  run:
+    dir: results/${experiment}/${backbone_name}/${hydra.job.name}/${now:%Y-%m-%d_%H-%M-%S}
+
+project: noise2same
+device: 0
+seed: 56
+check: False
+evaluate: True
+
+model:
+  lambda_rec: 1
+  lambda_bsp: 0
+  lambda_inv: 2
+  lambda_inv_deconv: 0
+  lambda_proj: 0
+  lambda_bound: 0
+  lambda_sharp: 0
+  masked_inv_deconv: True
+  mask_percentage: 0.5
+  masking: gaussian
+  noise_mean: 0
+  noise_std: 0.2
+  residual: False
+  regularization_key: image
+  mode: "noise2same"
+
+training:
+  steps_per_epoch: 1000
+  steps: 50000
+  batch_size: 64
+  num_workers: 8
+  crop: 64
+  validate: True
+  val_partition: 1.0
+  val_batch_size: 4
+  monitor: bsp_mse
+  amp: True
+  info_padding: False
+
+data:
+  n_dim: 2
+  n_channels: 1
+  standardize: True  # subtract mean and divide by std for each image separately
+  add_blur_and_noise: False
+
+optim:
+  optimizer: adam
+  lr: 0.0004
+  weight_decay: 0
+  scheduler: lambda
+  decay_rate: 0.5
+  decay_steps: 5e3  # how many steps to decrease by decay rate
+  staircase: True  # integer division

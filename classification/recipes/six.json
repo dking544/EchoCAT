@@ -1,0 +1,218 @@
+{
+  "model": {
+    "backbone": {
+      "type": "TinyViT",
+      "arch": "21m",
+      "img_size": [
+        224,
+        224
+      ],
+      "window_size": [
+        7,
+        7,
+        14,
+        7
+      ],
+      "out_indices": [
+        3
+      ],
+      "drop_path_rate": 0.2,
+      "gap_before_final_norm": true,
+      "init_cfg": [
+        {
+          "type": "TruncNormal",
+          "layer": [
+            "Conv2d",
+            "Linear"
+          ],
+          "std": 0.02,
+          "bias": 0.0
+        },
+        {
+          "type": "Constant",
+          "layer": [
+            "LayerNorm"
+          ],
+          "val": 1.0,
+          "bias": 0.0
+        }
+      ]
+    },
+    "head": {
+      "type": "LinearClsHead",
+      "num_classes": 6,
+      "in_channels": 576,
+      "loss": {
+        "type": "CrossEntropyLoss",
+        "loss_weight": 1.0
+      }
+    },
+    "cam_generator": {
+      "type": "FrozenResNet18CamGenerator",
+      "checkpoint": "weights/six_teacher.pth",
+      "target_class": 0
+    },
+    "paper_branch": {
+      "type": "PaperResidualBranch",
+      "in_channels": 576,
+      "branch_channels": 192,
+      "depth": 2,
+      "decoder_depth": 2,
+      "num_heads": 3,
+      "mlp_ratio": 4.0,
+      "dropout": 0.1,
+      "mask_ratio": 0.2,
+      "patch_size": 32,
+      "image_channels": 3,
+      "num_patches": 49,
+      "reconstruction_weight": 0.1,
+      "classification_uses_masked_tokens": true
+    }
+  },
+  "train_pipeline": [
+    {
+      "type": "LoadImageFromFile"
+    },
+    {
+      "type": "BGRToGrayThreeChannel"
+    },
+    {
+      "type": "RandomResizedCrop",
+      "size": 224,
+      "backend": "pillow"
+    },
+    {
+      "type": "RandomFlip",
+      "flip_prob": 0.5,
+      "direction": "horizontal"
+    },
+    {
+      "type": "Normalize",
+      "mean": [
+        123.675,
+        116.28,
+        103.53
+      ],
+      "std": [
+        58.395,
+        57.12,
+        57.375
+      ],
+      "to_rgb": true
+    },
+    {
+      "type": "ImageToTensor",
+      "keys": [
+        "img"
+      ]
+    },
+    {
+      "type": "ToTensor",
+      "keys": [
+        "gt_label"
+      ]
+    },
+    {
+      "type": "Collect",
+      "keys": [
+        "img",
+        "gt_label"
+      ]
+    }
+  ],
+  "val_pipeline": [
+    {
+      "type": "LoadImageFromFile"
+    },
+    {
+      "type": "BGRToGrayThreeChannel"
+    },
+    {
+      "type": "Resize",
+      "size": [
+        256,
+        -1
+      ],
+      "backend": "pillow"
+    },
+    {
+      "type": "CenterCrop",
+      "crop_size": 224
+    },
+    {
+      "type": "Normalize",
+      "mean": [
+        123.675,
+        116.28,
+        103.53
+      ],
+      "std": [
+        58.395,
+        57.12,
+        57.375
+      ],
+      "to_rgb": true
+    },
+    {
+      "type": "ImageToTensor",
+      "keys": [
+        "img"
+      ]
+    },
+    {
+      "type": "Collect",
+      "keys": [
+        "img"
+      ]
+    }
+  ],
+  "data": {
+    "batch_size": 32,
+    "num_workers": 4,
+    "train": {
+      "pretrained_flag": false,
+      "pretrained_weights": "",
+      "freeze_flag": false,
+      "freeze_layers": [],
+      "epoches": 100,
+      "baseline_val_acc": 0.0
+    },
+    "test": {
+      "ckpt": "",
+      "metrics": [
+        "accuracy",
+        "precision",
+        "recall",
+        "f1_score",
+        "confusion"
+      ],
+      "metric_options": {
+        "topk": [
+          1,
+          5
+        ],
+        "thrs": null,
+        "average_mode": "none"
+      }
+    }
+  },
+  "lr": {
+    "type": "CosineAnnealingLrUpdater",
+    "by_epoch": false,
+    "min_lr_ratio": 0.01,
+    "warmup": "linear",
+    "warmup_ratio": 0.001,
+    "warmup_iters": 3,
+    "warmup_by_epoch": true
+  },
+  "optimizer": {
+    "type": "AdamW",
+    "lr": 0.00025,
+    "weight_decay": 0.05,
+    "eps": 1e-08,
+    "betas": [
+      0.9,
+      0.999
+    ]
+  }
+}
