@@ -1,0 +1,1129 @@
+{
+  "purpose": "Run and verify the bundled example tests.",
+  "input_protocol": "external",
+  "models": "Bundled fixed view, binary and six-class models",
+  "cases": [
+    {
+      "fetus_id": "demo_normal",
+      "image_folder": "examples/normal",
+      "image_count": 35,
+      "reference_diagnosis": "Normal",
+      "view_reference_counts": {
+        "1": 26,
+        "0": 9
+      },
+      "view": {
+        "fetus_id": "demo_normal",
+        "images": 35,
+        "correct": 33,
+        "predicted_4ch": 7,
+        "confusion_matrix": [
+          [
+            7,
+            2
+          ],
+          [
+            0,
+            26
+          ]
+        ]
+      },
+      "binary": {
+        "expected_label": 0,
+        "expected_class": "Normal",
+        "reference_scores": [
+          0.8730783611536026,
+          0.12692162972234655
+        ],
+        "retained_images": 4
+      },
+      "six": {
+        "expected_label": 0,
+        "expected_class": "Normal",
+        "reference_scores": [
+          0.8279271268289158,
+          6.068357736496643e-06,
+          2.1131191366202075e-05,
+          0.00019552473541298106,
+          0.0027275741618092383,
+          0.16912253884855682
+        ],
+        "retained_images": 4
+      }
+    },
+    {
+      "fetus_id": "demo_single_ventricle",
+      "image_folder": "examples/single_ventricle",
+      "image_count": 93,
+      "reference_diagnosis": "SV",
+      "view_reference_counts": {
+        "1": 59,
+        "0": 34
+      },
+      "view": {
+        "fetus_id": "demo_single_ventricle",
+        "images": 93,
+        "correct": 90,
+        "predicted_4ch": 35,
+        "confusion_matrix": [
+          [
+            33,
+            1
+          ],
+          [
+            2,
+            57
+          ]
+        ]
+      },
+      "binary": {
+        "expected_label": 1,
+        "expected_class": "Abnormal",
+        "reference_scores": [
+          0.0006942258882595019,
+          0.9993057681454552
+        ],
+        "retained_images": 18
+      },
+      "six": {
+        "expected_label": 1,
+        "expected_class": "Single Ventricle",
+        "reference_scores": [
+          0.00015042463453045975,
+          0.9988689338542877,
+          0.0004418323110835665,
+          5.558854422252168e-05,
+          4.4247819153901745e-05,
+          0.0004389933691208138
+        ],
+        "retained_images": 18
+      }
+    }
+  ],
+  "images": [
+    {
+      "image": "examples/normal/img_0001.png",
+      "fetus_id": "demo_normal",
+      "sha256": "abed6aac7af8d0eb4e1e64be72f1ee3d74ed371c473def6f85eab3987ca8ea1b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.0438021490699612e-05
+    },
+    {
+      "image": "examples/normal/img_0002.png",
+      "fetus_id": "demo_normal",
+      "sha256": "c6571ee3f96519556f5669f2ab0b6e547ecccda60fd559ff60c726d2a4f69146",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.179841910925461e-05
+    },
+    {
+      "image": "examples/normal/img_0003.png",
+      "fetus_id": "demo_normal",
+      "sha256": "16e943b7b960b83dc6163815b1304e65b1a2105a81ae138cdf6ccba9ab09fdd4",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00010692018986446783
+    },
+    {
+      "image": "examples/normal/img_0004.png",
+      "fetus_id": "demo_normal",
+      "sha256": "3611db87618cec5a5a0746bb23384974ef0e500e625962999fb532c8f4e6a2cc",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.2924403310753405e-05
+    },
+    {
+      "image": "examples/normal/img_0005.png",
+      "fetus_id": "demo_normal",
+      "sha256": "7cf2ddd7967717db3452ef342eb50a9721821d02d3f5d493885bd01953beb13d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 4.304958929424174e-05
+    },
+    {
+      "image": "examples/normal/img_0006.png",
+      "fetus_id": "demo_normal",
+      "sha256": "235c1cf2cd92aaf11e8193008703d23e632f8b778c2b31446ebaf357d211757b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.619736005726736e-05
+    },
+    {
+      "image": "examples/normal/img_0007.png",
+      "fetus_id": "demo_normal",
+      "sha256": "ba5fb658b8a35b78b8d7983700350050adae302d5d9627ec76db51f72baa4ae2",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9998192191123962
+    },
+    {
+      "image": "examples/normal/img_0008.png",
+      "fetus_id": "demo_normal",
+      "sha256": "f66d357303bf10daceee2f7540feb946c6e82ff9e26af8fad8d342b8f412c569",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 8.424735824519303e-06
+    },
+    {
+      "image": "examples/normal/img_0009.png",
+      "fetus_id": "demo_normal",
+      "sha256": "e2c8c48e0558a95c01e2e4acacc005b15f7449abe624dc235221d79b12fdb1a4",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00013347509957384318
+    },
+    {
+      "image": "examples/normal/img_0010.png",
+      "fetus_id": "demo_normal",
+      "sha256": "1e2115c6cceb62470a17738d219bb6ede0a5c6853dde785edba99461e59d37c8",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.7969819964491762e-05
+    },
+    {
+      "image": "examples/normal/img_0011.png",
+      "fetus_id": "demo_normal",
+      "sha256": "e7f52b146780edd8329c7dff2e70b20f0c98862c439a2a2824c6cd7102520cad",
+      "view_label": 0,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00038837053580209613
+    },
+    {
+      "image": "examples/normal/img_0012.png",
+      "fetus_id": "demo_normal",
+      "sha256": "9f9c49938a1f230af26165693c2b9210cfc1f249bbac4d6066acb36737543679",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 7.16909344191663e-05
+    },
+    {
+      "image": "examples/normal/img_0013.png",
+      "fetus_id": "demo_normal",
+      "sha256": "96f33ab6d52eb2388d311e388866e84691257a2cf55b92bdf8f20307c8802280",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.2750929929316044e-05
+    },
+    {
+      "image": "examples/normal/img_0014.png",
+      "fetus_id": "demo_normal",
+      "sha256": "ffb9ea5f7b93089d1f0c675cc02d8817543661107d584eab7572dd390c486f2d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.2114741366531234e-05
+    },
+    {
+      "image": "examples/normal/img_0015.png",
+      "fetus_id": "demo_normal",
+      "sha256": "6863e6960fe9b03520208872c044e399a85d09d566c82a61a927e8bbf3c11418",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.4223923244571779e-05
+    },
+    {
+      "image": "examples/normal/img_0016.png",
+      "fetus_id": "demo_normal",
+      "sha256": "4e8928d9378de4b7a73fea084d60c810245fa68e156f400ced53c4ca126bacb5",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.938334207807202e-05
+    },
+    {
+      "image": "examples/normal/img_0017.png",
+      "fetus_id": "demo_normal",
+      "sha256": "2b0ae6f38e1e45a24ec6f4d9e76c9d08793b12e9350dfa91e22de1523b85878a",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999409914016724
+    },
+    {
+      "image": "examples/normal/img_0018.png",
+      "fetus_id": "demo_normal",
+      "sha256": "2ee5cfad1a2f426c7db0623f0224873c777edb1ebbcd6858ba6d6ddbf10c4a88",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9997408986091614
+    },
+    {
+      "image": "examples/normal/img_0019.png",
+      "fetus_id": "demo_normal",
+      "sha256": "65b60713661669fa9fced7821a5066e11eac09aabd932dce7a8e806a294e2058",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.6788946343003772e-05
+    },
+    {
+      "image": "examples/normal/img_0020.png",
+      "fetus_id": "demo_normal",
+      "sha256": "6ea743818320cc8c64495d72bee9a59972f9b099e47f0cb630009ab4c37cbbc1",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0003592176071833819
+    },
+    {
+      "image": "examples/normal/img_0021.png",
+      "fetus_id": "demo_normal",
+      "sha256": "76d9531e7ec1e75fea1477386cb50b06606ffe677c39b66968f2e3c3242135b0",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.408412390446756e-05
+    },
+    {
+      "image": "examples/normal/img_0022.png",
+      "fetus_id": "demo_normal",
+      "sha256": "b49f76ee7c8b9ff9a43bb6d4df1b9d888fa59faea8a84a0c492d880308ac6f84",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.5441240975633264e-05
+    },
+    {
+      "image": "examples/normal/img_0023.png",
+      "fetus_id": "demo_normal",
+      "sha256": "042ce3b95fdf347fa2def73cd3e94ecdef55f42ad5920bbf6444380216bb423a",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 4.577285289997235e-05
+    },
+    {
+      "image": "examples/normal/img_0024.png",
+      "fetus_id": "demo_normal",
+      "sha256": "c03eb4c99460f852dd1f6912805b0a884278b1a26f7498e628e6acf36d20b989",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999968409538269
+    },
+    {
+      "image": "examples/normal/img_0025.png",
+      "fetus_id": "demo_normal",
+      "sha256": "97e7d9e425b3ff516dd180d458da4075aed333d618c25c1aae4316e26adb1b7f",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.445873476768611e-05
+    },
+    {
+      "image": "examples/normal/img_0026.png",
+      "fetus_id": "demo_normal",
+      "sha256": "0c9bda489b6aef39f79add4cb3e578e7f023da69f1e5f72e544affd8e5890d58",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999357461929321
+    },
+    {
+      "image": "examples/normal/img_0027.png",
+      "fetus_id": "demo_normal",
+      "sha256": "97483cee7d1f171971dfe743193ba71cc6f220a4d2e3c1edb191ef6bc6e54ec6",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0006339740357361734
+    },
+    {
+      "image": "examples/normal/img_0028.png",
+      "fetus_id": "demo_normal",
+      "sha256": "b306d6f9028e944ffd8185acc35c42c6e6b2a7be2d1fafaf597397d7da1ade63",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.482207517256029e-05
+    },
+    {
+      "image": "examples/normal/img_0029.png",
+      "fetus_id": "demo_normal",
+      "sha256": "5b4273f1e779dcbec8dea7bffe278883cadde45baf3f51a11bacf67e457ac81b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0007629632600583136
+    },
+    {
+      "image": "examples/normal/img_0030.png",
+      "fetus_id": "demo_normal",
+      "sha256": "56332c0e8cb0ef22ad53ea6e92b70a8f833bf5591489fad8784d384c80e1edd2",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.6920477466774173e-05
+    },
+    {
+      "image": "examples/normal/img_0031.png",
+      "fetus_id": "demo_normal",
+      "sha256": "31be29c83d7d60dbba47c26c7556fbc97c3c05c3586cd1e3857f1e9fc1403452",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00043229959555901587
+    },
+    {
+      "image": "examples/normal/img_0032.png",
+      "fetus_id": "demo_normal",
+      "sha256": "efa5129beb16999dd0ba61e5ea394ed1ba6a91941f7ced95a05b5200b3140f32",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999213218688965
+    },
+    {
+      "image": "examples/normal/img_0033.png",
+      "fetus_id": "demo_normal",
+      "sha256": "58d00c6ff17dd96d620e7ae63ab8ed8b2ec65c8f8942c1cdb9a8fbc1f9335eb5",
+      "view_label": 0,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00016917877655941993
+    },
+    {
+      "image": "examples/normal/img_0034.png",
+      "fetus_id": "demo_normal",
+      "sha256": "a0b0ebc016274b0af0ea7ba0d59f7ccdec6e45c64895639ee3687755c6356101",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999940037727356
+    },
+    {
+      "image": "examples/normal/img_0035.png",
+      "fetus_id": "demo_normal",
+      "sha256": "93c102d71c78b72a47ffee043cc7ea7947d1c62a9df1b9bd75f3b9dd86dc685b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 3.020016993104946e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0001.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "91c65339e7f170026c9d245dc09d9e996e62a14169838aa9eeeea7017d31b1c3",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 4.6395358367590234e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0002.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "bea53bb57be19fb22ab1ec11052200224e5091008004a70ac26ffadc6dbfe8cb",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.6863710698089562e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0003.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "79ff5f4c0b0207f945a0d3b2200eea601f1b62464cf5c54fe0ddd4518e10f36f",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.4332733371702489e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0004.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c5139878beeb1b701bd5adb9f30510228de7e56df1b6b57f789a8d2eda417e14",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.04946573078632355
+    },
+    {
+      "image": "examples/single_ventricle/img_0005.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "5d5a2ebc2508e33deaa4acdfdd22005a303e5a79ff9af548136f263e08bc42cc",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.2124264685553499e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0006.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f57748cfe5eb25fefa1a05afd291bff056a1534a7139278d4e3bafc452299355",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9997357726097107
+    },
+    {
+      "image": "examples/single_ventricle/img_0007.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "8466217b9c3176782837b25c1e8ee4d6d67bb986b462e2db53372ea29fde8b67",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 8.944132423494011e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0008.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "5dd7a294d2e216453254570fa8ba2ef6ab901ef96530bfa156932ed1fa562243",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9981912970542908
+    },
+    {
+      "image": "examples/single_ventricle/img_0009.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "d40f8efda7b7281abf7b4ee131ff99c149052cb90c6b9625c61758e67de7832c",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.1023002341389656
+    },
+    {
+      "image": "examples/single_ventricle/img_0010.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "83d8de0e27f952fc2cbbfe3bdf464db214aeb0cf55f5875de289eeda932cb0f9",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 6.491378735518083e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0011.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "a8cb0ae8631c07938339b2b2f87b64baa1d79f6734eda8bf4998f11d8289ad7b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.006219859234988689
+    },
+    {
+      "image": "examples/single_ventricle/img_0012.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "11d79590eeb7a8cc3be231b7832cc8ab19055d285515e56dee24188da8da22e9",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.569598498463165e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0013.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "7751db6a901a754375dbbc45327b8f8c9b38590218cf96b3a9a290ebb21be292",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.2985587090952322e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0014.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "4280a173861115e136aa7e81184e69f855e988d4f7951f661d9af70d1899f453",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.8573496341705322
+    },
+    {
+      "image": "examples/single_ventricle/img_0015.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c38a1b46332b5171500d3e8602a04ecd95e737df0fedcbb8c9b17d06d995dd51",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0005369676509872079
+    },
+    {
+      "image": "examples/single_ventricle/img_0016.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "864a7720a5e1edba84dd00900731ecb156553cd323f5762a788696d89224de3b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.23993565142154694
+    },
+    {
+      "image": "examples/single_ventricle/img_0017.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ccc268e63128840d73589e89ed71820352e0f59405ddb58ae37f92b62d285851",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999568462371826
+    },
+    {
+      "image": "examples/single_ventricle/img_0018.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "be67ab24bf1afe4987807a906511fc220b29c1d6c9e67b08f065ccc4e73b6e00",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999958872795105
+    },
+    {
+      "image": "examples/single_ventricle/img_0019.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ea5e65ab6c55bcef6de9b7d3aae3d063a23a8ceffb2e19131d39fe1f1074eb7d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.5238798116333783e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0020.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "42ae8b2360a164eacde54bca5bf0b40d6ccb7284faf015fcb70a8d543a1b1985",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.03936639055609703
+    },
+    {
+      "image": "examples/single_ventricle/img_0021.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "1fd9c5fd9c20f76a50d6737902a6dfc71757151aa87b4bad60f12c92ffaa4d3d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.4233258298190776e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0022.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f9e65b71162ddfb9ba61d66eb46e7e5224f9d7973b244eb64e80f6ba4622168f",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.7800810383050703e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0023.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "e7c2b03a25ca9b3d19975551c9382ddaf9b737abd81590f67cc6e65ac8e7373e",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 5.288682950777002e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0024.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "32e0e36635f049337e864f400c8ed74b8986533b8f85ab17d6ec970f79e89ef5",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999715268611908
+    },
+    {
+      "image": "examples/single_ventricle/img_0025.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "eb7095132f74cc0d7dd74cbcea961d4f9e79a1693b06f246c5016de65b38a0c5",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9946709275245667
+    },
+    {
+      "image": "examples/single_ventricle/img_0026.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "108d0883925a823add91f653ecbb031b064e9bc80a9d44735433d9d63005e29d",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9994021654129028
+    },
+    {
+      "image": "examples/single_ventricle/img_0027.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "06b733a8a08d86e922ef60b0fffdbcb2bb12d8b3d3f07a003734597240916e95",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.004268690012395382
+    },
+    {
+      "image": "examples/single_ventricle/img_0028.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "2b614dc0c6722b35e229570e7968a1b4faf1fb924ec788be1f8ea7c5b53351ea",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.2803594472643454e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0029.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "89c84eff43ea644e18649a3d7ca3318e5c8d35f75bacef9a9a4a5f839c2aef08",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.784929190762341e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0030.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "2a5c79ff1cdc78ef88833271342ff8c1c0b95a2f4d118fd52ef31337a6187559",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.93462437891867e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0031.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "29a91ba8c59c3311c62139948ca3b2bf660939838d3763696c870cadd0da38d4",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.1319036275381222e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0032.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "35484899c712b3037f4faa53a813e0c492837e88dcaa031f1d0aa6440c3edac3",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 7.199821266112849e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0033.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c83f5ff39ba4eed45bf8ec48f9ce118801221a8efa9d25cae9ff00032cb44b3d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 4.7750494559295475e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0034.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "d108339708a47fd7ba25f5499f721cd92ae217552de74f3ef812ff6fee4bf836",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9993277788162231
+    },
+    {
+      "image": "examples/single_ventricle/img_0035.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "02bca640023b7862616bde824dd761e0b7035941c7b5cda0d29f8d844e2ab842",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.4523197412490845
+    },
+    {
+      "image": "examples/single_ventricle/img_0036.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "646a37968eacc67ef9aa6a9200ca744de4e56c662ea1b676476bda215ce7ab88",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.5455501852557063e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0037.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ddc5f1742663f58d6ec611208adce0ed8de58249407ec5b85607747147e60a4b",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.1619325707433745e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0038.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "90f18f0d7a4e456f38f0b6766ceed16d09c3315497c2f27614bd381732918fda",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.001787480665370822
+    },
+    {
+      "image": "examples/single_ventricle/img_0039.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ddbb0833bce3528c291512bcba2f98d16695910e2b40e8bae7036d1bf78963e2",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999560117721558
+    },
+    {
+      "image": "examples/single_ventricle/img_0040.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "8b110c245a63e4853f2b85d456c1bef2d9b67758e65dc0e781dd7f626937df54",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999846339225769
+    },
+    {
+      "image": "examples/single_ventricle/img_0041.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "2a80dc948d52821040b26a3589e3830c54423739435a3d673f4e03010e20e5f7",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9998613595962524
+    },
+    {
+      "image": "examples/single_ventricle/img_0042.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "81945be3ee5c838264d398a2539eff213e158f6ac49b9f0cc64e50c342707f25",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 1.2581086593854707e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0043.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "8ab267b0a2d19a522584a617d16dde87471ac1d0e0e8a2cafe56598106b66378",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999228715896606
+    },
+    {
+      "image": "examples/single_ventricle/img_0044.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "4c77ab88fd334687a9de6b12b22cc5a604aa149a445f4e2b962397814836de10",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.14289839565753937
+    },
+    {
+      "image": "examples/single_ventricle/img_0045.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ae5fc7e9eb86028643dcb57076c8c2b17eb70f553e572a892034838bcc4f5f8c",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0002653287083376199
+    },
+    {
+      "image": "examples/single_ventricle/img_0046.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "6ecd21c245caf654e9e799ec9f7d8339d4d12a8bb05097219b2eade8f718ddc6",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999105930328369
+    },
+    {
+      "image": "examples/single_ventricle/img_0047.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f423beb22f2cc7eb89d80cd925825362421f818c0d06ffaa07f04852d95e6510",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9995177984237671
+    },
+    {
+      "image": "examples/single_ventricle/img_0048.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "fd7caed48a8af06de79a683dcdca9645630ce740560f31a43081c5f53804d824",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0007432466372847557
+    },
+    {
+      "image": "examples/single_ventricle/img_0049.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "55a94ed1b7f2eb519c29510605d7143bdbec9d944df60db949cceaba58479ebf",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9995217323303223
+    },
+    {
+      "image": "examples/single_ventricle/img_0050.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f02eb41b735134885b94f85c5368395e954449945d4d5ba3e2b2ce70d7b85377",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 9.123706695390865e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0051.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "1c37f6d48b82496d98912cf9d3c9dc75c51407d4b8935a423e43e0d3515d0bd6",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999586343765259
+    },
+    {
+      "image": "examples/single_ventricle/img_0052.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "b3c6b4a71b56fff14ab2b801c8e13110f81fcc8e3490269d97de68e7a555a817",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.026115374639630318
+    },
+    {
+      "image": "examples/single_ventricle/img_0053.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "7276ac9f1bf453d01f1dcab4f4e763923578f069106193ea2ae2134f4babc2e7",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.00027045776369050145
+    },
+    {
+      "image": "examples/single_ventricle/img_0054.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ea188e34a814f01fffafebda1be13c040c47518936df0feaac570c292802c1c4",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9995310306549072
+    },
+    {
+      "image": "examples/single_ventricle/img_0055.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f4630f902eadc307ab7548bab9e7c3e049e57fdad05591ac4432542819fd3b0c",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 3.53092145815026e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0056.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "54ce8e620640bfafa22d154e493ea8d2176cde5f3e221921dad4c6de5e6a909d",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.001221908605657518
+    },
+    {
+      "image": "examples/single_ventricle/img_0057.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c0ab8ecd695082162f0854357877eb7769fd570c9fe2b4bc05409ab40dfa1934",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 3.439420834183693e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0058.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "12ed962d5a4626dd4e0621044b0cb5de05efd1b62644548dfe27f9f6f26dd12a",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.7403608328313567e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0059.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "bf3252136e8d8c91f348fc28fccb749dca175dec8acef26b386dcc213bf0844c",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.6899087429046631
+    },
+    {
+      "image": "examples/single_ventricle/img_0060.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "531a73d5c37df745a25b093886c835c399bda86364822e2b034be270c3b524d2",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 4.315864134696312e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0061.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "998f10cb5fe90dd5ad972522146f4af561471713c0d063cd5b3cf5c54e03774d",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999192953109741
+    },
+    {
+      "image": "examples/single_ventricle/img_0062.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f9b4f668d899e471cdd7c07d301b759e582e22907d9c0add3144756b72c12d55",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.010269633494317532
+    },
+    {
+      "image": "examples/single_ventricle/img_0063.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "e2487cf2706765d091f40d1000f960157f5816c827459dec986d9321b2fa291f",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0032804717775434256
+    },
+    {
+      "image": "examples/single_ventricle/img_0064.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "773c06cdf94da8001ec52b1a51dd5d9a446ce5d38fec0b3b0ab3cd53ca867ecf",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9998475313186646
+    },
+    {
+      "image": "examples/single_ventricle/img_0065.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "9e7a1d11d451a2ba1cd16131889fe720cffbdb727d52f17aca1ad8d2602c7a45",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999833345413208
+    },
+    {
+      "image": "examples/single_ventricle/img_0066.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "9e9b91475ea8d9299e4e2d8c893c67b5efa22537887c6e8d097d281411f96187",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9998154044151306
+    },
+    {
+      "image": "examples/single_ventricle/img_0067.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c9995dc203cade89789e45a1d180b785c0ddec723e68d16ef62895b17c1b07b9",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.6182326109847054e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0068.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "856282a5a94149ba54aecc248eda6fd61d9a9617b620515bdbfb859f795b2ab1",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999599456787109
+    },
+    {
+      "image": "examples/single_ventricle/img_0069.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "53af654002b51e25b3138eb0d5b4de1b8d446e5028a24455712901faf4d11f8e",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9435791969299316
+    },
+    {
+      "image": "examples/single_ventricle/img_0070.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c96d8b61b1b44857875f4a600db3e1d78c294fd8a43ae7cb24b9aee1ee2eb028",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.006498768925666809
+    },
+    {
+      "image": "examples/single_ventricle/img_0071.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "e7233311674025e2563b5876a276c5d6653dc1154d0510d47aba246233de52f6",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.7220039555686526e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0072.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "fa9cd14f28092ae231b1ee503f30e12dcbdaed5394853497ce889674d05a40c8",
+      "view_label": 1,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9285423159599304
+    },
+    {
+      "image": "examples/single_ventricle/img_0073.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "3d5ceef9012e2a19aff3ebffe1a65a12d5ca52a24d06f9da2b8da9be043961e7",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.000623317901045084
+    },
+    {
+      "image": "examples/single_ventricle/img_0074.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "39f9af5ddf105550479410f7201bc26420d538d1bbedfff3add2070a128993dd",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.13899128139019012
+    },
+    {
+      "image": "examples/single_ventricle/img_0075.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "fd2a57a17ed2f482d0c486268dca3478392f3ca86185611a5fffe4ce26a78991",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9992903470993042
+    },
+    {
+      "image": "examples/single_ventricle/img_0076.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ad48debb302f19628f973e52bfcfbceb460511686fce374b9a05252c5077ef54",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999517202377319
+    },
+    {
+      "image": "examples/single_ventricle/img_0077.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "04f2f6898c0fc8c9d4144f955de70a4fd9dcc8fb786471aef6eae7821993f496",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9996926784515381
+    },
+    {
+      "image": "examples/single_ventricle/img_0078.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "7a34dadb03c1183f8606f53bf87b6f0a965ef1cdae5ccd001dae4f71488d3c95",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0001446009991923347
+    },
+    {
+      "image": "examples/single_ventricle/img_0079.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "85c9dc81896feb1546c3e9bc12348e3ed9d5b087b75ff94b427559ed6bde7db1",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.999935507774353
+    },
+    {
+      "image": "examples/single_ventricle/img_0080.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "fdcc186e2ebbded3b4aad6ea1f924b80aa0f256c33bb762fd4df84d1b37690fc",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9999570846557617
+    },
+    {
+      "image": "examples/single_ventricle/img_0081.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ce85f42a925c2c6bd93f64eb2a2ec5ada402698f1e2023c84eb7b3c6376cca54",
+      "view_label": 1,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.7173026204109192
+    },
+    {
+      "image": "examples/single_ventricle/img_0082.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "399da4d879b6ae73176513896ab516a7a84a1d5f734fe2a53e33c8d720ce7d38",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9950612187385559
+    },
+    {
+      "image": "examples/single_ventricle/img_0083.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "8acbc117a6b0f0ea301e9b04703a0adb55dd6d94410cd30de9b6e7426586857c",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 5.361235889722593e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0084.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "ca93f3d8fcd1e049c9748ba70595870dd28096b3adbf794d49c182c72604fd8c",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 3.59349069185555e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0085.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "012a0ecc02e0e9c6fc979792c93a82509cb2e557430955029ef36a6e12e0e506",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0002973344235215336
+    },
+    {
+      "image": "examples/single_ventricle/img_0086.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "f112f66454d9f8922de99757dc29ede67dfee6436bb757d69ebbd40f2bb04cec",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 3.821088466793299e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0087.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "99831008360fa1a57471964d3d6de8ba2735ba02e4e8fae630abb7e6ad91add5",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9998341798782349
+    },
+    {
+      "image": "examples/single_ventricle/img_0088.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c39fcf08a63ef0dbc2f8440c5188363d94f9e163a2a11ea21ac1f10f657e7842",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 2.2744943635188974e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0089.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "1b7f38f56124b38915814838e1262616cb4aba503df5d736d115a6490ecda65f",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 5.134566526976414e-05
+    },
+    {
+      "image": "examples/single_ventricle/img_0090.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "db45a8768413be952a97f384a97d56f7d9bfe00cd3eff4dbd71bc91c141faf3c",
+      "view_label": 0,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.02185295708477497
+    },
+    {
+      "image": "examples/single_ventricle/img_0091.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "e41aa47cc74721047954b895005b1f96478b684e7a3e99058856ee59aa95b3ae",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.0001933300227392465
+    },
+    {
+      "image": "examples/single_ventricle/img_0092.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "7bee8f50318cd13075a35f5e5c9b40224913d120ac562bde4791472cb7013fcc",
+      "view_label": 1,
+      "reference_view_prediction": 1,
+      "reference_4ch_probability": 0.004700096324086189
+    },
+    {
+      "image": "examples/single_ventricle/img_0093.png",
+      "fetus_id": "demo_single_ventricle",
+      "sha256": "c345b30381b1efe8f5c73595fc5c7a7bb7114d04a394b7ad7037ce93dd8b66f5",
+      "view_label": 0,
+      "reference_view_prediction": 0,
+      "reference_4ch_probability": 0.9996070265769958
+    }
+  ]
+}
