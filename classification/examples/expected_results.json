@@ -1,5 +1,7 @@
 {
-  "purpose": "Run and verify the bundled example tests.",
+  "purpose": "Two curated complete case inputs for functional demonstration, not a representative evaluation",
+  "center": "WCSUH-2",
+  "scope": "All preprocessed images in the current Table 1 cohort for each selected fetus; no within-case image selection or deletion",
   "input_protocol": "external",
   "models": "Bundled fixed view, binary and six-class models",
   "cases": [
@@ -12,6 +14,7 @@
         "1": 26,
         "0": 9
       },
+      "all_current_table1_case_images_included": true,
       "view": {
         "fetus_id": "demo_normal",
         "images": 35,
@@ -41,12 +44,12 @@
         "expected_label": 0,
         "expected_class": "Normal",
         "reference_scores": [
-          0.8279271268289158,
-          6.068357736496643e-06,
-          2.1131191366202075e-05,
-          0.00019552473541298106,
-          0.0027275741618092383,
-          0.16912253884855682
+          0.9989127008062229,
+          3.800796955746358e-06,
+          3.811063476637032e-06,
+          0.0008936537290837148,
+          1.0936644320223667e-05,
+          0.00017508900823459407
         ],
         "retained_images": 4
       }
@@ -60,6 +63,7 @@
         "1": 59,
         "0": 34
       },
+      "all_current_table1_case_images_included": true,
       "view": {
         "fetus_id": "demo_single_ventricle",
         "images": 93,
@@ -89,12 +93,12 @@
         "expected_label": 1,
         "expected_class": "Single Ventricle",
         "reference_scores": [
-          0.00015042463453045975,
-          0.9988689338542877,
-          0.0004418323110835665,
-          5.558854422252168e-05,
-          4.4247819153901745e-05,
-          0.0004389933691208138
+          7.40680869413494e-05,
+          0.9961309458272156,
+          0.0002186050083002546,
+          1.2483006636219481e-05,
+          0.00029052374643584114,
+          0.0032733842414293486
         ],
         "retained_images": 18
       }
@@ -1125,5 +1129,12 @@
       "reference_view_prediction": 0,
       "reference_4ch_probability": 0.9996070265769958
     }
-  ]
+  ],
+  "six_model_version": {
+    "split_seed": 20261030,
+    "training_seed": 3407,
+    "selected_epoch": 89,
+    "checkpoint_sha256": "896b1fa9980fc8e8dfaac7f25e6a469f676f21518ac88f373e05b9f6c47eb7e3",
+    "reference_execution": "CPU, original prepared release, batch size 16"
+  }
 }
