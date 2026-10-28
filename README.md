@@ -1,328 +1,221 @@
 # EchoCAT
 
-EchoCAT is an image preprocessing and classification project for fetal echocardiography, covering the complete pipeline from ultrasound image segmentation, region-of-interest cropping, grayscaling, and image enhancement, to view recognition, disease classification, fetal-level aggregation inference, and Grad-CAM visualization.
+Fetal ultrasound view classification and diagnostic classification, with training, image prediction, fetal-level inference, and Grad-CAM visualization.
 
-> This project is intended for research and experimental validation only and should not be used directly for clinical diagnosis or treatment decisions.
+## Installation
 
-## Feature Overview
+Use Python 3.10 and run commands from the repository root.
 
-- **Image Preprocessing**
-  - Generate ultrasound region segmentation masks based on TransUNet
-  - Crop original images based on masks while preserving directory structure
-  - Convert images to three-channel grayscale images
-  - Optional image denoising/enhancement based on Noise2Same
-- **Image Classification**
-  - `view`: Four-chamber (4CH) vs. non-four-chamber view classification
-  - `binary`: Normal vs. abnormal binary classification
-  - `six`: Six-class diagnosis
-- **Inference and Analysis**
-  - Single-image inference
-  - Evaluation on labeled image lists
-  - Fetal-level prediction aggregation from multiple images
-  - Grad-CAM visualization
+```bash
+python -m venv .venv
 
-## Project Structure
+# Linux/macOS
+source .venv/bin/activate
+
+# Windows PowerShell (use instead of the command above)
+.venv\Scripts\Activate.ps1
+
+python -m pip install torch==2.8.0 torchvision==0.23.0 --index-url https://download.pytorch.org/whl/cu126
+python -m pip install -r requirements.txt
+```
+
+For CPU-only installation, replace `cu126` with `cpu`. To run on CPU, use `--device cpu` instead of `--device cuda:0`.
+
+## Classification Model Weights
+
+The classification checkpoints are distributed separately from the GitHub code repository because of their file sizes.
+
+**Download: [EchoCAT classification model weights](https://mega.nz/folder/BVBxGYJR#vtqSL5IZ7XoHa-xZAWrABQ)**
+
+Download the files manually and extract them, if archived. Place the actual `.pth` files in the repository's `weights/` directory, keeping the filenames below unchanged. The scripts load local checkpoint files; they do not automatically download weights from MEGA. Do not pass the MEGA sharing-page URL as a checkpoint path.
 
 ```text
 EchoCAT/
-├── preprocess/
-│   ├── transunet/          # Segmentation, mask cropping, and grayscaling
-│   └── enchancer/          # Noise2Same image enhancement (directory name retains existing spelling)
-├── classification/
-│   ├── recipes/            # Configurations for view, binary, and six tasks
-│   ├── weights/            # Fixed classification weights and teacher model weights (Git LFS)
-│   ├── train.py            # Classification training entry point
-│   ├── predict.py          # Single-image inference and test set evaluation
-│   ├── fetal.py            # Fetal-level aggregation inference
-│   └── gradcam.py          # Grad-CAM visualization
-└── README.md
+├── weights/
+│   ├── view_fixed.pth
+│   ├── binary_fixed.pth
+│   ├── binary_teacher.pth
+│   ├── six_fixed.pth
+│   └── six_teacher.pth
+├── examples/
+│   ├── normal/
+│   ├── single_ventricle/
+│   ├── view.txt
+│   ├── fetal_binary.jsonl
+│   ├── fetal_six.jsonl
+│   └── expected_results.json
+└── run_examples.py
 ```
 
-## Environment Setup
+`view_fixed.pth`, `binary_fixed.pth`, and `six_fixed.pth` are the fixed checkpoints for view classification, binary diagnosis, and six-class diagnosis, respectively. The current implementation also reads `binary_teacher.pth` and `six_teacher.pth` when constructing the diagnostic models. Keep both teacher files in `weights/`, even though CAM guidance is not performed during inference. The teacher files are not substitutes for `view_fixed.pth`.
 
-It is recommended to create separate virtual environments for the classification module and the preprocessing module. `classification` uses newer PyTorch dependencies, while the Noise2Same dependencies retained in `preprocess/enchancer` are based on older versions; mixing them may cause version conflicts.
 
-### 1. Obtain Code and Classification Weights
+## Two Complete Fetal Examples
 
-Classification weights are managed by Git LFS. Please install Git LFS first, then clone and pull large files:
+The `examples/` directory contains two deidentified complete fetal cases from WCSUH-2, rather than two individual images. Each case includes all of its preprocessed images in the evaluation cohort. These selected cases are provided for functional demonstration, not as a representative performance evaluation.
+
+| Image folder | Images | Expected fetal binary diagnosis | Expected fetal six-class diagnosis |
+|---|---:|---|---|
+| `examples/normal/` | 35 | Normal | Normal |
+| `examples/single_ventricle/` | 93 | Abnormal | Single Ventricle |
+
+After installing the dependencies and placing all five checkpoints in `weights/`, run the following from the repository root:
 
 ```bash
-git lfs install
-git clone https://github.com/dking544/EchoCAT.git
-cd EchoCAT
-git lfs pull
+python run_examples.py --device cpu
 ```
 
-If the repository has already been cloned, you can directly run `git lfs pull` in the repository root.
-
-### 2. Classification Environment
-
-Python 3.10 is recommended for the classification module:
+For an NVIDIA GPU:
 
 ```bash
-cd classification
-python3.10 -m venv .venv
-source .venv/bin/activate
-
-# NVIDIA CUDA 12.6
-python -m pip install torch==2.8.0 torchvision==0.23.0 \
-  --index-url https://download.pytorch.org/whl/cu126
-python -m pip install -r requirements.txt
+python run_examples.py --device cuda:0
 ```
 
-For CPU environments, replace `cu126` in the PyTorch installation source with `cpu`, and use `--device cpu` when running commands. On Windows PowerShell, activate the environment using `.venv\Scripts\Activate.ps1`.
+The command checks the example image inventory and checksums, runs image-level view classification on all 128 images, and then runs binary and six-class fetal-level inference. Results are written to `results/examples/`, with a summary in `results/examples/summary.json`. No model is trained or modified by this command.
 
-### 3. Preprocessing Environment
+Reference information is provided in `examples/expected_results.json`; use the 1030 version with the updated six-class checkpoint. The current runner compares the view predictions and final fetal diagnostic labels with the reference values. It records diagnostic probabilities but does not compare them element by element with the reference probabilities. Small numerical differences may occur across hardware and library versions.
 
-TransUNet and Noise2Same can be installed separately to reduce dependency conflicts.
+The supplied images are already preprocessed classification inputs. This demonstration covers classification and fetal-level aggregation; it does not perform the preceding offline image preparation steps.
 
-The main dependencies required by TransUNet include PyTorch, torchvision, timm, OpenCV, Pillow, NumPy, and tqdm:
+To run the three tasks separately:
 
 ```bash
-cd preprocess/transunet
-python -m pip install torch torchvision timm opencv-python Pillow numpy tqdm
+python predict.py --task view --list examples/view.txt --protocol external --output results/examples/view.json --device cpu
+python fetal.py --task binary --manifest examples/fetal_binary.jsonl --output results/examples/binary.json --device cpu
+python fetal.py --task six --manifest examples/fetal_six.jsonl --output results/examples/six.json --device cpu
 ```
 
-The Noise2Same enhancement module uses the legacy dependency list provided in the repository and is recommended to be installed in a separate compatible environment:
+The fetal manifests contain both 4CH and non-4CH images so that the view model performs screening. Fetal reference diagnoses must not be treated as image-level diagnostic labels for non-4CH inputs.
 
-```bash
-cd preprocess/enchancer
-python -m pip install -r requirements.txt
-```
+## Tasks and Data Format
 
-## Model Weights
-
-The fixed classification weights and teacher model weights are located in `classification/weights/` and can be used after correctly running `git lfs pull`.
-
-Preprocessing model weights are not yet provided in the repository:
-
-| Module | Purpose | Download Link |
-|---|---|---|
-| TransUNet | Ultrasound region segmentation | https://mega.nz/folder/wZwkgKbC#kOn6ZNzxhKrtjnZ_ALNZsQ |
-| Noise2Same UNet | Image denoising/enhancement | https://mega.nz/folder/wZwkgKbC#kOn6ZNzxhKrtjnZ_ALNZsQ |
-| Classification Model | Ultrasound image classification | https://mega.nz/folder/BVBxGYJR#vtqSL5IZ7XoHa-xZAWrABQ |
-
-After downloading, they can be placed in a custom directory and their paths specified via command-line arguments or `preprocess/enchancer/config/experiment/custom.yaml`. Below, `<TRANSUNET_WEIGHT>` and `<NOISE2SAME_WEIGHT>` are used to denote the corresponding weight files.
-
-## Preprocessing Pipeline
-
-The recommended pipeline is as follows:
-
-```text
-Raw images -> TransUNet segmentation -> Mask cropping -> Three-channel grayscaling -> Noise2Same enhancement (optional)
-```
-
-The following commands are all executed from the corresponding module directories.
-
-### 1. Generate Segmentation Masks
-
-```bash
-cd preprocess/transunet
-
-python transunetval.py \
-  --model_path <TRANSUNET_WEIGHT> \
-  --input_folder /path/to/raw_images \
-  --output_folder /path/to/masks \
-  --device cuda:0 \
-  --mode progress
-```
-
-The default binarization threshold is `0.5`, which can be adjusted via `--threshold`. Example of single-image inference:
-
-```bash
-python transunetval.py \
-  --model_path <TRANSUNET_WEIGHT> \
-  --mode single \
-  --single_image /path/to/image.png \
-  --single_output /path/to/mask.png \
-  --device cuda:0
-```
-
-### 2. Crop Original Images Based on Masks
-
-```bash
-python cutbyunet.py \
-  --original_root_folder /path/to/raw_images \
-  --segmented_root_folder /path/to/masks \
-  --output_root_folder /path/to/cropped_images \
-  --coverage 0.70 \
-  --padding_pixels 0
-```
-
-The script recursively processes subdirectories, maps mask coordinates back to the original image dimensions, and preserves the relative directory structure in the output directory. `--coverage` indicates the foreground pixel coverage ratio used to determine the cropping region.
-
-### 3. Convert to Three-Channel Grayscale Images
-
-```bash
-python grayscale.py /path/to/cropped_images /path/to/grayscale_images
-```
-
-If the output directory is omitted, the script will generate files with a `_gray` suffix alongside the original images.
-
-### 4. Noise2Same Image Enhancement (Optional)
-
-Edit `preprocess/enchancer/config/experiment/custom.yaml` and set at least:
-
-```yaml
-data:
-  train_path: /path/to/grayscale_images
-
-checkpoint_path: /path/to/noise2same_weight.pth
-output_dir: /path/to/enhanced_images
-```
-
-Then run:
-
-```bash
-cd preprocess/enchancer
-python test.py +backbone=unet +experiment=custom
-```
-
-The output will preserve the relative directory structure of the input data as much as possible. To train the enhancement model, run with the same configuration:
-
-```bash
-python train.py +backbone=unet +experiment=custom
-```
-
-## Classification Tasks and Labels
-
-| Task | Label Definition |
+| Task | Class labels |
 |---|---|
-| `view` | `0`: 4CH; `1`: Non-4CH |
-| `binary` | `0`: Normal; `1`: Abnormal |
-| `six` | `0`: Normal; `1`: Single Ventricle; `2`: Septal Defect; `3`: Ebstein Anomaly; `4`: Cardiac Tumor; `5`: Ventricular Disproportion |
+| `view` | 0: 4CH; 1: Non-4CH |
+| `binary` | 0: Normal; 1: Abnormal |
+| `six` | 0: Normal; 1: Single Ventricle; 2: Septal Defect; 3: Ebstein Anomaly; 4: Cardiac Tumor; 5: Ventricular Disproportion |
 
-Training, validation, and test lists are all UTF-8 text files, each line containing an image path and a label separated by a space:
+Training, validation, and test lists are UTF-8 text files with one image path and label per line:
 
 ```text
 images/example_001.png 0
 images/example_002.png 1
 ```
 
-Relative image paths are based on the directory where the list file is located. To avoid data leakage, all images from the same fetus should be placed in the same data split.
+Relative image paths are resolved from the list file's directory. Keep images from the same fetus in one split. Use ultrasound images prepared consistently with the original experiments; the classification input transforms handle resizing, center cropping, and normalization.
 
-## Classification Training
-
-The following commands are executed from the `classification/` directory:
+## Training
 
 ```bash
-cd classification
+# View classification
+python train.py --task view --train-list data/view_train.txt --val-list data/view_val.txt --output runs/view --device cuda:0
 
-# Four-chamber view recognition
-python train.py \
-  --task view \
-  --train-list data/view_train.txt \
-  --val-list data/view_val.txt \
-  --output runs/view \
-  --device cuda:0
-
-# Normal/abnormal binary classification
-python train.py \
-  --task binary \
-  --train-list data/binary_train.txt \
-  --val-list data/binary_val.txt \
-  --output runs/binary \
-  --device cuda:0
+# Binary diagnosis
+python train.py --task binary --train-list data/binary_train.txt --val-list data/binary_val.txt --output runs/binary --device cuda:0
 
 # Six-class diagnosis
-python train.py \
-  --task six \
-  --train-list data/six_train.txt \
-  --val-list data/six_val.txt \
-  --output runs/six \
-  --device cuda:0
+python train.py --task six --train-list data/six_train.txt --val-list data/six_val.txt --output runs/six --device cuda:0
 ```
 
-The default training runs for `100` epochs. The output directory will save the best validation weights, final weights, training logs, and `checkpoints.json`. To resume training, use the best checkpoint recorded therein:
+Training runs for 100 epochs by default and retains the best validation checkpoint and the final checkpoint. See `checkpoints.json` in the output directory for the saved epochs.
+
+To resume from the best checkpoint, append the following to the original training command, keeping the training settings unchanged:
 
 ```bash
-python train.py \
-  --task six \
-  --train-list data/six_train.txt \
-  --val-list data/six_val.txt \
-  --output runs/six \
-  --resume-best runs/six/epoch_N.pth \
-  --device cuda:0
+--resume-best runs/six/epoch_N.pth
 ```
 
-Binary and six-class classification also support optional early stopping monitoring; for complete parameters and fetal-level validation mapping format, see [`classification/README.md`](classification/README.md).
+Replace `N` with `best_epoch` from `checkpoints.json`.
 
-## Image Inference and Evaluation
+### Optional Early Stopping
 
-When `--checkpoint` is not specified, the program will automatically use the fixed weights for the corresponding task in `classification/weights/`.
+Early stopping is disabled by default. Enable it with `--early-stop-monitor`:
 
-Single-image inference:
+| Task | Monitor | Stop after no improvement |
+|---|---|---|
+| `binary` | `macro_precision_3mean`: mean image-level validation Macro-Precision over the last 3 epochs | 10 epochs |
+| `six` | `fetal_macro_f1`: current fetal-level validation Macro-F1 | 15 epochs |
+
+Binary diagnosis:
 
 ```bash
-cd classification
-python predict.py \
-  --task binary \
-  --image data/example.png \
-  --output results/example.json \
-  --device cuda:0
+python train.py --task binary --train-list data/binary_train.txt --val-list data/binary_val.txt --output runs/binary_early --early-stop-monitor macro_precision_3mean --device cuda:0
 ```
 
-Evaluate a labeled test list:
+Six-class diagnosis:
 
 ```bash
-python predict.py \
-  --task six \
-  --list data/six_test.txt \
-  --protocol validation \
-  --output results/six_test.json \
-  --device cuda:0
+python train.py --task six --train-list data/six_train.txt --val-list data/six_val.txt --output runs/six_early --early-stop-monitor fetal_macro_f1 --val-case-map data/six_val_cases.jsonl --device cuda:0
 ```
 
-When using self-trained weights, add `--checkpoint runs/six/epoch_N.pth`.
+For six-class early stopping, create `data/six_val_cases.jsonl` with one entry per validation image:
+
+```json
+{"image":"images/example_a_01.png","fetus_id":"example_a"}
+{"image":"images/example_a_02.png","fetus_id":"example_a"}
+{"image":"images/example_b_01.png","fetus_id":"example_b"}
+```
+
+Relative paths are resolved from the JSONL file's directory. Every validation image must appear exactly once. Labels come from `--val-list`, and all images of one fetus must share the same label. The validation set must contain every class.
+
+The monitor selects the best checkpoint and restores it when training ends. Tied scores count as no improvement. The binary monitor starts checkpoint selection at epoch 3 and saves that epoch's weights, not averaged weights. See `early_stop_summary.json` for the stopping and restored epochs.
+
+Keep `--epochs` at the intended maximum (default: 100); early stopping ends training automatically. These monitors are unavailable for `view` and cannot be combined with `--selection accuracy` or `--selection macro_f1`. To resume, keep the same monitor and data arguments and add `--resume-best` as shown above.
+
+## Image Prediction and Evaluation
+
+Predict a single image using the downloaded fixed weights:
+
+```bash
+python predict.py --task binary --image data/example.png --output results/example.json --device cuda:0
+```
+
+Evaluate a labeled test list using the training-validation preprocessing pipeline:
+
+```bash
+python predict.py --task six --list data/six_test.txt --protocol validation --output results/six_test.json --device cuda:0
+```
+
+To use your own trained weights, append:
+
+```bash
+--checkpoint runs/six/epoch_N.pth
+```
+
+Choose `view`, `binary`, or `six` for `--task`. The checkpoint must match the task. Without `--checkpoint`, the corresponding fixed model in `weights/` is used.
 
 ## Fetal-Level Inference
 
-Fetal-level inference first filters 4CH images, then aggregates diagnosis probabilities for the same fetus. Create a JSONL manifest with one record per line:
+Create `data/fetal.jsonl` with one image and fetus ID per line:
 
 ```json
 {"image":"images/example_001.png","fetus_id":"fetus_001","fetus_label":1}
 {"image":"images/example_002.png","fetus_id":"fetus_001","fetus_label":1}
 ```
 
-`fetus_label` is an optional fetal-level reference label. Run:
+`fetus_label` is an optional fetal-level reference diagnosis.
 
 ```bash
-cd classification
+# Binary diagnosis
+python fetal.py --task binary --manifest data/fetal.jsonl --output results/fetal_binary.json --device cuda:0
 
-python fetal.py \
-  --task binary \
-  --manifest data/fetal.jsonl \
-  --output results/fetal_binary.json \
-  --device cuda:0
+# Six-class diagnosis
+python fetal.py --task six --manifest data/fetal.jsonl --output results/fetal_six.json --device cuda:0
 ```
 
-Change `--task` to `six` to perform six-class fetal-level inference.
+The pipeline screens for 4CH views and aggregates images from the same fetus into a fetal-level prediction.
 
 ## Grad-CAM
 
 ```bash
-cd classification
-
-python gradcam.py \
-  --task six \
-  --image data/example.png \
-  --output results/gradcam \
-  --device cuda:0
+python gradcam.py --task six --image data/example.png --output results/cam --device cuda:0
 ```
 
-By default, the predicted class is explained; a target class can be specified via `--target CLASS_INDEX`. The output directory contains preprocessed images, overlay images, heatmap arrays, and class scores.
+The predicted class is visualized by default. Add `--target CLASS_INDEX` to select a class. Outputs include the preprocessed image, heatmap, and overlay.
 
-## Testing
-
-Run the release tests in the classification environment:
+## Tests
 
 ```bash
-cd classification
 python -m tests.test_release
 ```
 
-## Notes
-
-- Input images, annotations, and training data are not included in this repository.
-- Preprocessing weight download links will be added in the future.
-- For more training details, early stopping rules, and data formats for the classification module, see [`classification/README.md`](classification/README.md).
